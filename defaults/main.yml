@@ -1,0 +1,4 @@
+---
+
+# Disable ipv6
+network_disable_ipv6: false

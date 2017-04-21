@@ -1,0 +1,44 @@
+---
+
+
+# - name: set hostname
+#   hostname:
+#     name: "{{ network_hostname }}"
+#   become: true
+#   when: network_hostname is defined
+
+
+- name: ensure hosts is properly configured
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: "127.0.0.1 localhost"
+    backup: yes
+  become: true
+
+- name: ensure fqdn is configured in hostname
+  lineinfile:
+    dest: /etc/hostname
+    regexp: ".*"
+    line: "{{ network_server_fqdn }}"
+    backup: yes
+  become: true
+  when: network_server_fqdn is defined
+
+- name: ensure fqdn is configured in hosts file
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1  {{ network_server_fqdn }}  {{ network_server_fqdn.split('.')[0] }}"
+    backup: yes
+  become: true
+  when: network_server_fqdn is defined
+
+- name: ensure server knows new hostname
+  hostname:
+    name: "{{ network_server_fqdn }}"
+  become: true
+  when: network_server_fqdn is defined
+
+
+  

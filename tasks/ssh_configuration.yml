@@ -1,0 +1,22 @@
+---
+
+- name: create central ssh authorized keys location
+  file:
+    path: /etc/ssh/authorized_keys
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: set new ssh authorized keys location
+  lineinfile: 
+    dest: /etc/ssh/sshd_config
+    insertafter: 'PubkeyAuthentication .*'
+    line: 'AuthorizedKeysFile /etc/ssh/authorized_keys/%u'
+    regexp: '^AuthorizedKeysFile .*'
+    state: present
+    backup: yes
+  become: true
+  notify:
+    - reload ssh

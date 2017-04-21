@@ -1,0 +1,19 @@
+---
+
+
+- include: network_hostname.yml
+  tags:
+    - server_setup
+    - network_configuration
+    - network_hostname
+
+- include: network_ipv6.yml
+  tags:
+    - server_setup
+    - network_configuration
+    - network_ipv6
+
+- include: ssh_configuration.yml
+  tags:
+    - server_setup
+    - ssh_configuration

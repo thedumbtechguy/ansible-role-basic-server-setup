@@ -1,0 +1,9 @@
+---
+
+- include: network_hostname.yml
+  tags:
+    - network_hostname
+
+- include: network_ipv6.yml
+  tags:
+    - network_ipv6
