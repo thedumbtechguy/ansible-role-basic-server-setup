@@ -26,23 +26,23 @@
 
 - name: check if ipv6 is indeed disabled
   shell: 'cat /proc/sys/net/ipv6/conf/all/disable_ipv6'
-  register: ipv6_disabled
+  register: _ipv6_disabled
   changed_when: False
 
 - debug:
-    msg: "ipv6 disabled: {{ ipv6_disabled.stdout }}"
+    msg: "ipv6 disabled: {{ _ipv6_disabled.stdout }}"
 
 - name: enforce ipv6 disabling
   command: 'sysctl -p'
   become: true
-  when: ipv6_disabled.stdout != "1"
+  when: _ipv6_disabled.stdout != "1"
 
 - name: check again if ipv6 is disabled
   shell: 'cat /proc/sys/net/ipv6/conf/all/disable_ipv6'
-  register: ipv6_disabled2
-  when: ipv6_disabled.stdout != "1"
+  register: _ipv6_disabled2
+  when: _ipv6_disabled.stdout != "1"
   changed_when: False
 
 - fail:
     msg: "Failed to disable ipv6."
-  when: ipv6_disabled.stdout != "1" and ipv6_disabled2.stdout != "1"
+  when: _ipv6_disabled.stdout != "1" and _ipv6_disabled2.stdout != "1"
