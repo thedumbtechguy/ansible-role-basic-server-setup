@@ -1,4 +1,4 @@
-# Ansible Role: server_setup
+# Ansible Role: Basic Server Setup
 
 An ansible role to configure some basics on a new linux host.
 
@@ -30,8 +30,11 @@ Configure SSH to use a centralized authorized_keys location for easy management.
 
 ```yaml
 - hosts: all
+  vars:
+    network_server_fqdn: host.domain.tld
+    network_disable_ipv6: true
   roles:
-    - thedumbtechguy.server-setup
+    - thedumbtechguy.basic-server-setup
 ```
 
 
